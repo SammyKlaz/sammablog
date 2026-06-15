@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-container">
+
+    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        <p class="author-username">
+                <em>@{{ user.username }}</em>
+        </p>    
+
+    {% if profile.profile_picture %}
+        <img
+            class="profile-picture"
+            src="{{ profile.profile_picture.url }}"
+            alt="{{ user.username }}"
+        >
+    {% endif %}
+
+    <div class="profile-stats">
+
+        <p>
+            Member Since:
+          <em>{{ user.date_joined|date:"F j, Y" }}</em>
+        </p>
+
+        <p>
+            Posts: <strong>{{ post_count }}</strong>
+        </p>
+
+        <p>
+            Total Likes Received:<strong> {{ total_likes }}</strong>
+        </p>
+
+        <p>
+            Total Comments Received:  <strong>{{ total_comments }}</strong>
+        </p>
+
+    </div>
+
+    <h3 id = "bio">Bio</h3>
+
+    <p class="profile-bio">
+        {{ profile.bio }}
+    </p>
+
+        {% if profile.is_author %}
+
+            <p class="author-badge">
+                You are an author.
+            </p>
+
+            <a
+                class="profile-btn"
+                href="{% url 'create_post' %}"
+            >
+                Create Post
+            </a>
+
+        {% elif profile.author_request %}
+
+            <p>
+                Author request pending approval.
+            </p>
+
+        {% else %}
+
+            <p>
+                You are not an author yet.
+            </p>
+
+            <a
+                class="profile-btn"
+                href="{% url 'request_author' %}"
+            >
+                Request Author Access
+            </a>
+
+        {% endif %}
+            
+    <a
+        class="profile-btn"
+        href="{% url 'edit_profile' %}"
+    >
+        Edit Profile
+    </a>
+
+</div>
+
+
+<h3>My Posts</h3>
+
+<div class="my-posts">
+
+    {% for post in posts %}
+
+        <div class="post-card">
+
+            <h4>
+
+                <a href="{% url 'post_detail' post.slug %}">
+                    {{ post.title }}
+                </a>
+
+            </h4>
+
+            <div class="post-actions">
+
+                <a href="{% url 'edit_post' post.slug %}">
+                    Edit
+                </a>
+
+                <a href="{% url 'delete_post' post.slug %}">
+                    Delete
+                </a>
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <p>
+            You have not created any posts yet.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - SammaBlog{% endblock %}
+
+{% block content %}
+
+<div class="home-container">
+
+    <h2>Latest Posts</h2>
+
+    <p class="post-count">
+        Total Posts: {{ post_count }}
+    </p>
+
+    {% if posts %}
+
+        <div class="post-grid">
+
+            {% for post in posts %}
+
+                <div class="post-card">
+
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                    {% endif %}
+
+                    <h3>
+                        <a href="{% url 'post_detail' post.slug %}">
+                            {{ post.title }}
+                        </a>
+                    </h3> 
+                    <br>
+
+                    <p class="post-meta">
+                        Author:
+                        <a href="{% url 'author_profile' post.author.username %}">
+                            {{ post.author.username }}
+                        </a>
+                    </p>
+
+                    <p class="post-meta">
+                        {{ post.created_at }}
+                    </p>
+
+                    <p class="post-excerpt">
+                        {{ post.body|truncatewords:40 }}
+                    </p>
+
+                    <a class="read-more-btn"
+                       href="{% url 'post_detail' post.slug %}">
+                        Read More
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>No posts yet.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

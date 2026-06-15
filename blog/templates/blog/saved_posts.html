@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Saved Posts
+{% endblock %}
+
+{% block content %}
+
+<div class="saved-container">
+
+    <h1 id="saved-posts">Saved Posts</h1>
+
+    {% if posts %}
+
+        {% for post in posts %}
+
+            <div class="post-card">
+
+                <h2>
+                    <a href="{% url 'post_detail' post.slug %}">
+                        {{ post.title }}
+                    </a>
+                </h2>
+
+                <p class="post-date">
+                    {{ post.created_at }}
+                </p>
+
+                {% if post.image %}
+                    <img
+                        src="{{ post.image.url }}"
+                        alt="{{ post.title }}"
+                        class="saved-image"
+                    >
+                {% endif %}
+
+                <p>
+                    {{ post.body|truncatewords:30 }}
+                </p>
+
+                <a class="remove-link"
+                   href="{% url 'remove_saved_post' post.slug %}">
+                    Remove from Saved
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p class="empty-text">
+            No saved posts yet.
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

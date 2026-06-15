@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ author.username }}
+{% endblock %}
+
+{% block content %}
+
+<div class="author-profile-container">
+
+    <div class="author-header">
+
+        <h2>
+            {{ author.first_name }} {{ author.last_name }}
+        </h2>
+
+        <p class="author-username">
+            <em>@{{ author.username }}</em>
+        </p>
+
+        <p>
+            Joined:
+            {{ author.date_joined|date:"F Y" }}
+        </p>
+
+        {% if profile.profile_picture %}
+
+            <img
+                class="author-picture"
+                src="{{ profile.profile_picture.url }}"
+                alt="{{ author.username }}"
+            >
+
+        {% endif %}
+
+    </div>
+
+    <div class="author-stats">
+
+        <p>
+            Posts Written:
+            <strong>{{ post_count }}</strong>
+        </p>
+
+    </div>
+
+    <div class="author-bio">
+
+        <h3>About Author</h3>
+
+        <p>
+            {{ profile.bio }}
+        </p>
+
+    </div>
+
+    <div class="author-posts">
+
+        <h3>Posts by {{ author.username }}</h3>
+
+        {% for post in posts %}
+
+            <div class="author-post-card">
+
+                <a href="{% url 'post_detail' post.slug %}">
+                    {{ post.title }}
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            <p>
+                No posts yet.
+            </p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

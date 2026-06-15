@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - SammaBlog{% endblock %}
+
+{% block content %}
+<div class="post-detail-container">
+    <article class="post-detail">
+
+        <h2>{{ post.title }}</h2>
+
+        <p class="post-meta">
+            Author:
+            <a href="{% url 'author_profile' post.author.username %}">
+                {{ post.author.username }}
+            </a>
+        </p>
+
+        <p class="post-meta">
+            Date: {{ post.created_at }}
+        </p>
+
+        {% if post.image %}
+            <img
+                class="post-image"
+                src="{{ post.image.url }}"
+                alt="{{ post.title }}"
+            >
+        {% endif %}
+
+        <form
+            action="{% url 'like_post' post.slug %}"
+            method="POST"
+        >
+
+            {% csrf_token %}
+
+            <button type="submit">
+
+                Like ({{ post.likes.count }})
+
+            </button>
+
+        </form>
+
+        <div class="post-body">
+
+            {{ post.body|linebreaks }}
+
+        </div>
+
+    </article>
+
+
+<section class="comments-section">
+
+    <h3>
+        Comments ({{ post.comments.count }})
+    </h3>
+
+    {% for comment in post.comments.all %}
+
+        <div class="comment-card">
+
+            <p>
+                <strong>
+                    {{ comment.user.first_name }} {{ comment.user.last_name }}
+                </strong>
+            </p>
+
+            <p>
+                {{ comment.created_at }}
+            </p>
+
+            <p>
+                {{ comment.body }}
+            </p>
+
+        </div>
+
+    {% empty %}
+
+        <p>No comments yet.</p>
+
+    {% endfor %}
+
+</section>
+
+<section class="comment-form">
+
+    <h3>Leave a Comment</h3>
+
+    {% if request.user.is_authenticated %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Add Comment
+            </button>
+
+        </form>
+
+    {% else %}
+
+        <p>
+            Please login to comment.
+        </p>
+
+    {% endif %}
+
+</section>
+
+<div class="post-actions">
+
+    {% if is_saved %}
+
+        <a href="{% url 'remove_saved_post' post.slug %}">
+            Remove from Saved
+        </a>
+
+    {% else %}
+
+        <a href="{% url 'save_post' post.slug %}">
+            Save for Later
+        </a>
+
+    {% endif %}
+
+    <a href="{% url 'home' %}">
+        Back to Home
+    </a>
+
+</div>
+
+</div>
+
+
+{% endblock %}

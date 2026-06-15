@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Delete Post
+{% endblock %}
+
+{% block content %}
+
+<div class="delete-container">
+
+    <h2>Delete Post</h2>
+
+    <p class="warning-text">
+        Are you sure you want to delete this post?
+    </p>
+
+    <div class="delete-card">
+
+        <h3>{{ post.title }}</h3>
+
+        {% if post.image %}
+            <img
+                src="{{ post.image.url }}"
+                alt="{{ post.title }}"
+                class="delete-image"
+            >
+        {% endif %}
+
+        {% if post.body %}
+            <p class="delete-body">
+                {{ post.body|truncatewords:40 }}
+            </p>
+        {% endif %}
+
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <button type="submit" class="danger-btn">
+            Yes, Delete
+        </button>
+
+    </form>
+
+    <p>
+        <a href="{% url 'profile' %}">
+            Cancel
+        </a>
+    </p>
+
+</div>
+
+{% endblock %}

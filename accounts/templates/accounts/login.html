@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Login</h2>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <p>
+            <label>Username</label>
+            {{ form.username }}
+
+            {% if form.username.errors %}
+                <div class="form-error">
+                    {{ form.username.errors }}
+                </div>
+            {% endif %}
+        </p>
+
+        <p>
+            <label>Password</label>
+            {{ form.password }}
+
+            {% if form.password.errors %}
+                <div class="form-error">
+                    {{ form.password.errors }}
+                </div>
+            {% endif %}
+        </p>
+
+        {% if form.non_field_errors %}
+            <div class="form-error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <button type="submit">
+            Login
+        </button>
+
+        <p>
+            <a id = "forgot-password" href="{% url 'password_reset' %}">
+                Forgot Password?
+            </a>
+        </p>
+
+    </form>
+
+</div>
+
+{% endblock %}
