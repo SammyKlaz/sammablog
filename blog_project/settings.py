@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p$ivg9l3@nfakh!cgy0__*upd$+%6f&&pnt5(2wtsx#(qzm1fj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['samuel078.pythonanywhere.com']
+ALLOWED_HOSTS = ['samuel078.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -134,7 +134,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = 'samueledet717@gmail.com'
-EMAIL_HOST_PASSWORD = 'kezf buaj fjst gqto'
+EMAIL_HOST_PASSWORD = 'kezfbuajfjstgqto'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
